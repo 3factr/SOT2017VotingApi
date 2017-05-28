@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -36,14 +37,15 @@ namespace SOT2017VotingApi
             _votes = new ConcurrentDictionary<string, int>();
         }
 
-        public void Add(string voteOption)
+        public bool Add(string voteOption)
         {
             if (string.IsNullOrEmpty(voteOption))
             {
-                return;
+                return false;;
             }
             
-            _votes.AddOrUpdate(voteOption.Trim().ToLower(), 1, (opt, voteCount) => voteCount + 1);
+            Console.WriteLine("Registered vote for " + voteOption);
+            return _votes.AddOrUpdate(voteOption.Trim().ToLower(), 1, (opt, voteCount) => voteCount + 1) > 0;
         }
 
         public IReadOnlyDictionary<string, int> GetVotes()

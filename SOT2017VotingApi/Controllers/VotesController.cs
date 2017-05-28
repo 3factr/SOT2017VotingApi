@@ -10,6 +10,6 @@ namespace SOT2017VotingApi.Controllers
         public IReadOnlyDictionary<string, int> Get() => VoteStorage.Instance.GetVotes();
         
         [HttpPost]
-        public void Post([FromBody] string value) => VoteStorage.Instance.Add(value);
+        public IActionResult Post([FromBody] string value) => VoteStorage.Instance.Add(value) ? (IActionResult) Ok() : BadRequest();
     }
 }
